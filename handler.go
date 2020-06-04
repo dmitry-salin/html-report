@@ -27,10 +27,16 @@ func (h *handler) NotifySpecExecutionStarting(c context.Context, m *gauge_messag
 func (h *handler) NotifyScenarioExecutionStarting(c context.Context, m *gauge_messages.ScenarioExecutionStartingRequest) (*gauge_messages.Empty, error) {
 	return &gauge_messages.Empty{}, nil
 }
+func (h *handler) NotifyConceptExecutionStarting(c context.Context, m *gauge_messages.ConceptExecutionStartingRequest) (*gauge_messages.Empty, error) {
+	return &gauge_messages.Empty{}, nil
+}
 func (h *handler) NotifyStepExecutionStarting(c context.Context, m *gauge_messages.StepExecutionStartingRequest) (*gauge_messages.Empty, error) {
 	return &gauge_messages.Empty{}, nil
 }
 func (h *handler) NotifyStepExecutionEnding(c context.Context, m *gauge_messages.StepExecutionEndingRequest) (*gauge_messages.Empty, error) {
+	return &gauge_messages.Empty{}, nil
+}
+func (h *handler) NotifyConceptExecutionEnding(c context.Context, m *gauge_messages.ConceptExecutionEndingRequest) (*gauge_messages.Empty, error) {
 	return &gauge_messages.Empty{}, nil
 }
 func (h *handler) NotifyScenarioExecutionEnding(c context.Context, m *gauge_messages.ScenarioExecutionEndingRequest) (*gauge_messages.Empty, error) {
