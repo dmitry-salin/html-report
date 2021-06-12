@@ -287,9 +287,9 @@ func minifyHTMLFiles(htmlFilePaths []string, reportsDir string) {
 		tmpHTMLFile.Close()
 		tmpHTMLFilePath := tmpHTMLFile.Name()
 
-		ioutil.WriteFile(tmpHTMLFilePath, htmlBytes, os.ModePerm)
+		err = ioutil.WriteFile(tmpHTMLFilePath, htmlBytes, os.ModePerm)
 		if err != nil {
-			logger.Warnf("Error while minifying %s", err.Error())
+			logger.Warnf("Error while writing minified file %s: %s", tmpHTMLFilePath, err.Error())
 			return
 		}
 		srcToDest[tmpHTMLFilePath] = htmlFilePath
@@ -302,7 +302,7 @@ func minifyHTMLFiles(htmlFilePaths []string, reportsDir string) {
 		}
 		err = ioutil.WriteFile(dest, minifiedBytes, os.ModePerm)
 		if err != nil {
-			logger.Warnf("Error while minifying %s", err.Error())
+			logger.Warnf("Error while writing minified file %s: %s", dest, err.Error())
 			return
 		}
 	}
@@ -344,28 +344,33 @@ func readTemplates(themePath string) {
 		return r
 	}
 
+	var screenshotOfFailureEnabled = func() bool {
+		return os.Getenv("screenshot_on_failure") == "true"
+	}
+
 	var funcs = template.FuncMap{
-		"parseMarkdown":       parseMarkdown,
-		"sanitize":            sanitizeHTML,
-		"escapeHTML":          template.HTMLEscapeString,
-		"encodeNewLine":       encodeNewLine,
-		"containsParseErrors": containsParseErrors,
-		"toSpecHeader":        toSpecHeader,
-		"toSidebar":           toSidebar,
-		"toOverview":          toOverview,
-		"toPath":              func(elem ...string) string { return filepath.ToSlash(filepath.Clean(path.Join(elem...))) },
-		"stringContains":      strings.Contains,
-		"stringHasPrefix":     strings.HasPrefix,
-		"stringHasSuffix":     strings.HasSuffix,
-		"stringJoin":          strings.Join,
-		"stringSplit":         strings.Split,
-		"stringCompare":       strings.Compare,
-		"stringReplace":       strings.Replace,
-		"stringTrim":          strings.Trim,
-		"stringToLower":       strings.ToLower,
-		"stringToUpper":       strings.ToUpper,
-		"stringToTitle":       strings.ToTitle,
-		"sum":                 sum,
+		"parseMarkdown":              parseMarkdown,
+		"sanitize":                   sanitizeHTML,
+		"escapeHTML":                 template.HTMLEscapeString,
+		"encodeNewLine":              encodeNewLine,
+		"containsParseErrors":        containsParseErrors,
+		"toSpecHeader":               toSpecHeader,
+		"toSidebar":                  toSidebar,
+		"toOverview":                 toOverview,
+		"toPath":                     func(elem ...string) string { return filepath.ToSlash(filepath.Clean(path.Join(elem...))) },
+		"stringContains":             strings.Contains,
+		"stringHasPrefix":            strings.HasPrefix,
+		"stringHasSuffix":            strings.HasSuffix,
+		"stringJoin":                 strings.Join,
+		"stringSplit":                strings.Split,
+		"stringCompare":              strings.Compare,
+		"stringReplace":              strings.Replace,
+		"stringTrim":                 strings.Trim,
+		"stringToLower":              strings.ToLower,
+		"stringToUpper":              strings.ToUpper,
+		"stringToTitle":              strings.ToTitle,
+		"sum":                        sum,
+		"screenshotOfFailureEnabled": screenshotOfFailureEnabled,
 	}
 
 	f, err := ioutil.ReadFile(filepath.Join(getAbsThemePath(themePath), "views", "partials.tmpl"))
