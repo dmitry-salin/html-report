@@ -1,32 +1,32 @@
 {
-    "capabilities": [
-        "grpc_support"
-    ],
+    "id": "html-report",
+    "version": "4.0.13",
+    "name": "Html Report",
+    "description": "Html reporting plugin",
+    "install": {
+        "windows": [],
+        "linux": [],
+        "darwin": []
+    },
     "command": {
-        "darwin": [
+        "windows": [
             "bin/html-report"
         ],
         "linux": [
             "bin/html-report"
         ],
-        "windows": [
+        "darwin": [
             "bin/html-report"
         ]
     },
-    "description": "Html reporting plugin",
-    "gaugeVersionSupport": {
-        "maximum": "",
-        "minimum": "1.0.7"
-    },
-    "id": "html-report",
-    "install": {
-        "darwin": [],
-        "linux": [],
-        "windows": []
-    },
-    "name": "Html Report",
     "scope": [
         "Execution"
     ],
-    "version": "4.0.13"
+    "gaugeVersionSupport": {
+        "minimum": "1.0.7",
+        "maximum": ""
+    },
+    "capabilities": [
+        "grpc_support"
+    ]
 }
